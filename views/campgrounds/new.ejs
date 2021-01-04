@@ -1,0 +1,58 @@
+<%- layout('layouts/boilerplate') %>
+<div class="container">
+  <h1 class="heading-2 text-center">Create New</h1>
+  <div class="row">
+    <div class="col-6 offset-3">
+      <div class="card p-5">
+        <form class="form" action="/campgrounds" method="POST">
+          <div class="mb-3">
+            <label class="form-label" for="title">Title</label>
+            <input
+              class="form-control"
+              type="text"
+              name="campground[title]"
+              id="title"
+            />
+          </div>
+          <div class="mb-3">
+            <label class="from-label" for="location">Location</label>
+            <input
+              type="text"
+              class="form-control"
+              name="campground[location]"
+              id="location"
+            />
+          </div>
+          <div class="mb-3">
+            <label class="from-label" for="image">Imgae URL</label>
+            <input
+              type="text"
+              class="form-control"
+              name="campground[image]"
+              id="image"
+            />
+          </div>
+          <div class="mb-3">
+            <label class="from-label" for="price">Price</label>
+            <input
+              type="number"
+              class="form-control"
+              name="campground[price]"
+              id="price"
+            />
+          </div>
+          <div class="mb-3">
+            <label class="from-label" for="description">Description</label>
+            <textarea
+              type=""
+              class="form-control"
+              name="campground[description]"
+              id="description"
+            ></textarea>
+          </div>
+          <button class="btn btn-success" type="submit">Save</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
