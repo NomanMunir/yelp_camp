@@ -2,12 +2,18 @@ const mongoose = require('mongoose');
 const { Schema } = require('mongoose');
 
 const campgroundSchema = new Schema({
-    title: { type: String, required: true, min: 3 },
-    image: { type: String, required: true, min: 3 },
-    price: { type: Number, required: true, min: 0 },
-    location: { type: String, required: true, min: 3 },
-    description: { type: String, required: true },
+    title: { type: String, min: 3 },
+    image: { type: String, min: 3 },
+    price: { type: Number, min: 0 },
+    location: { type: String, min: 3 },
+    description: { type: String },
+    reviews: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "review",
+        }
+    ]
 })
-module.exports = mongoose.model('Campground', campgroundSchema);
+module.exports = mongoose.model('campground', campgroundSchema);
 
 
