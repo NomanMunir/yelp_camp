@@ -69,6 +69,12 @@
         <div>
           <p><%=review.body %></p>
         </div>
+        <form
+          action="/campgrounds/<%=campground._id%>/reviews/<%=review._id%>?_method=delete"
+          method="post"
+        >
+          <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+        </form>
       </div>
     </div>
     <% } %>
