@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+
+const { isLogedIn } = require('../middlewares.js');
 const CatchAsync = require('../utils/CatchAsync');
 const ExpressError = require('../utils/ExpressError');
 const Campground = require('../models/campground');
@@ -25,11 +27,11 @@ router.get('/', CatchAsync(async (req, res, next) => {
     res.render('campgrounds/index', { campgrounds });
 }))
 
-router.get('/new', (req, res) => {
+router.get('/new', isLogedIn, (req, res) => {
     res.render('campgrounds/new');
 })
 
-router.get('/:id/edit', CatchAsync(async (req, res, next) => {
+router.get('/:id/edit', isLogedIn, CatchAsync(async (req, res, next) => {
     const { id } = req.params;
     const campground = await Campground.findById(id);
     if (!campground) {
@@ -39,8 +41,9 @@ router.get('/:id/edit', CatchAsync(async (req, res, next) => {
     res.render('campgrounds/edit', { campground });
 }))
 
-router.post('/', validateCampground, CatchAsync(async (req, res, next) => {
+router.post('/', isLogedIn, validateCampground, CatchAsync(async (req, res, next) => {
     const newCampground = new Campground({ ...req.body.campground });
+    newCampground.author = req.user._id;
     const campground = await newCampground.save();
     req.flash('success', 'Successfully made a campground!');
     res.redirect(`/campgrounds/${campground._id}`)
@@ -48,7 +51,7 @@ router.post('/', validateCampground, CatchAsync(async (req, res, next) => {
 
 router.get('/:id', CatchAsync(async (req, res, next) => {
     const { id } = req.params;
-    const campground = await Campground.findById(id).populate('reviews');
+    const campground = await Campground.findById(id).populate('reviews').populate('author');
     if (!campground) {
         req.flash('error', 'Cannot find that campground!');
         return res.redirect('/campgrounds');

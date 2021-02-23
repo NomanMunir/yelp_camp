@@ -16,6 +16,8 @@
         <p class="card-text">
           Price <%= campground.price %>$ /<small>night</small>
         </p>
+        <p class="text-info card-text">Author <%= campground.author?campground.author.username:"Unknown" %></p>
+
         <p class="card-text"><%= campground.description %></p>
         <a
           class="card-link btn btn-info"
