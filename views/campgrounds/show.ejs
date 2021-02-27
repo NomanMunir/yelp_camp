@@ -16,21 +16,27 @@
         <p class="card-text">
           Price <%= campground.price %>$ /<small>night</small>
         </p>
-        <p class="text-info card-text">Author <%= campground.author?campground.author.username:"Unknown" %></p>
+        <p class="text-info card-text">
+          Author <%= campground.author?campground.author.username:"Unknown" %>
+        </p>
 
         <p class="card-text"><%= campground.description %></p>
-        <a
-          class="card-link btn btn-info"
-          href="/campgrounds/<%= campground._id %>/edit"
-          >Edit</a
-        >
-        <form
-          class="d-inline"
-          action="/campgrounds/<%= campground._id %>?_method=delete"
-          method="post"
-        >
-          <button class="btn btn-danger">Delete</button>
-        </form>
+        <% if(currentUser && campground.author.equals(currentUser._id)) {%>
+        <div class="btn btn-group">
+          <a
+            class="card-link btn btn-info"
+            href="/campgrounds/<%= campground._id %>/edit"
+            >Edit</a
+          >
+          <form
+            class="d-inline"
+            action="/campgrounds/<%= campground._id %>?_method=delete"
+            method="post"
+          >
+            <button class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+        <% } %>
       </div>
     </div>
   </div>
