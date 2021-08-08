@@ -8,6 +8,7 @@
           class="form needs-validation"
           action="/campgrounds"
           method="POST"
+          enctype="multipart/form-data"
           novalidate
         >
           <div class="mb-3">
@@ -33,14 +34,15 @@
             <div class="valid-feedback">Looks good!</div>
           </div>
           <div class="mb-3">
-            <label class="from-label" for="image">Imgae URL</label>
-            <input
+            <label class="from-label" for="image">Choose Image</label>
+            <!-- <input
               type="text"
               class="form-control"
               name="campground[image]"
               id="image"
               required
-            />
+            /> -->
+            <input class="form-control" type="file" name="image" id="image" multiple>
             <div class="valid-feedback">Looks good!</div>
           </div>
           <div class="mb-3">
