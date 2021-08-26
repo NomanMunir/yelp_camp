@@ -24,9 +24,10 @@ const reviewsRoutes = require('./routes/reviews');
 const userRoutes = require('./routes/user');
 
 // Connection to Db
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
 
 try {
-    mongoose.connect('mongodb://localhost:27017/yelp-camp',
+    mongoose.connect(dbUrl,
         {
             useNewUrlParser: true,
             useUnifiedTopology: true,
@@ -94,15 +95,16 @@ app.use(
         },
     })
 );
-
+const secret = process.env.SECRET;
 const sessionConfig = {
     store: MongoStore.create({
-        mongoUrl: 'mongodb://localhost:27017/yelp-camp',
+        secret,
+        mongoUrl: dbUrl,
         touchAfter: 24 * 3600 // time period in seconds
     }),
     name: 'session',
-    secret: 'thisismysecret',
-    // secure: true,
+    secret,
+    secure: true,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -158,4 +160,3 @@ app.use((err, req, res, next) => {
 app.listen(3000, () => {
     console.log('App running on port 3000!');
 })
-
