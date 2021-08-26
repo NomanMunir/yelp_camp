@@ -24,8 +24,8 @@ const reviewsRoutes = require('./routes/reviews');
 const userRoutes = require('./routes/user');
 
 // Connection to Db
-const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
-
+const dbUrl = process.env.DB_URL
+// 'mongodb://localhost:27017/yelp-camp';
 try {
     mongoose.connect(dbUrl,
         {
@@ -97,14 +97,14 @@ app.use(
 );
 const secret = process.env.SECRET;
 const sessionConfig = {
-    store: MongoStore.create({
-        secret,
-        mongoUrl: dbUrl,
-        touchAfter: 24 * 3600 // time period in seconds
-    }),
+    // store: MongoStore.create({
+    //     secret,
+    //     mongoUrl: dbUrl,
+    //     touchAfter: 24 * 3600 // time period in seconds
+    // }),
     name: 'session',
     secret,
-    secure: true,
+    // secure: true,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -141,21 +141,12 @@ app.use('/campgrounds/:id/reviews', reviewsRoutes);
 app.use('/', (req, res) => {
     res.render("home")
 })
-app.get('/fakeuser', async (req, res) => {
-    const user = new User({ email: 'shanGee@gmail.com', username: 'shanGee' });
-    const newUser = await User.register(user, 'Sha@123');
-    res.send(newUser);
-})
+
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404));
 })
 
-app.use((err, req, res, next) => {
-    const { statusCode = 500 } = err
-    if (!err.message) err.message = "Somthing went wrong!!"
-    res.status(statusCode).render('error', { err });
-})
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`App running on port ${port}!`);
