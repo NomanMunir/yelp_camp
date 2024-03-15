@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 const cities = require('./cities');
 const { places, descriptors } = require('./seedHelpers');
 const Campground = require('../models/campground');
-//'mongodb://localhost:27017/yelp-camp'
-//mongodb+srv://nomi:Luffy@123@webdeveloper.bcxev.mongodb.net/yelpCamp?retryWrites=true&w=majority
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
     useNewUrlParser: true,
     useCreateIndex: true,
