@@ -26,11 +26,13 @@ const userRoutes = require("./routes/user");
 // Connection to Db
 const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/yelp-camp";
 
-mongoose.connect(dbUrl, {
-
-})
-.then(() => console.log("Database connected"))
-.catch(err => console.error("Database connection error", err));
+mongoose
+  .connect(dbUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Database connected"))
+  .catch((err) => console.error("Database connection error", err));
 
 const app = express();
 
@@ -88,19 +90,24 @@ app.use(
   })
 );
 const secret = process.env.SECRET;
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  secret,
+  touchAfter: 24 * 3600, // time in seconds
+});
+
+store.on("error", function (e) {
+  console.log("SESSION STORE ERROR", e);
+});
 const sessionConfig = {
-  // store: MongoStore.create({
-  //     secret,
-  //     mongoUrl: dbUrl,
-  //     touchAfter: 24 * 3600 // time period in seconds
-  // }),
+  store,
   name: "session",
   secret,
-  // secure: true,
   resave: false,
   saveUninitialized: true,
   cookie: {
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    // secure: true,
     maxAge: 1000 * 60 * 60 * 24 * 7,
     httpOnly: true,
   },
